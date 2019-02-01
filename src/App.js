@@ -4,12 +4,12 @@ import './App.css';
 
 import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
+import VideoDisplay from './components/VideoDisplay';
 
 class App extends Component {
-  //
+  state = { videos: [], selectedVideo: null };
 
-  state = { videos: [] };
-
+  //searchResultsHandler
   searchResultsHandler = async query => {
     console.log({ query });
     const response = await youTube.get('/search', {
@@ -20,11 +20,22 @@ class App extends Component {
     this.setState({ videos: response.data.items });
     console.log(this.state.videos);
   };
+
+  //onVideoSelectHandler
+  onVideoSelectHandler = video => {
+    console.log({ 'Selected video': video });
+    this.setState({ selectedVideo: video });
+  };
+
   render() {
     return (
       <div className="App">
         <SearchBar onSubmitHandler={this.searchResultsHandler} />
-        <VideoList videoList={this.state.videos} />
+        <VideoDisplay selectedVideo={this.state.selectedVideo} />
+        <VideoList
+          videoList={this.state.videos}
+          onVideoSelectHandler={this.onVideoSelectHandler}
+        />
       </div>
     );
   }
