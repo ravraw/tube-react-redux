@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import youTube from './apis/youTube';
 import './App.css';
 
+import SearchBar from './components/SearchBar';
+
 class App extends Component {
+  //
+
+  state = { videos: [] };
+
+  searchResultsHandler = async query => {
+    console.log({ query });
+    const response = await youTube.get('/search', {
+      params: {
+        q: query
+      }
+    });
+    console.log(response);
+  };
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <SearchBar onSubmitHandler={this.searchResultsHandler} />
       </div>
     );
   }
