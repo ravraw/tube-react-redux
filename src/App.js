@@ -17,7 +17,10 @@ class App extends Component {
         q: query
       }
     });
-    this.setState({ videos: response.data.items });
+    this.setState({
+      videos: response.data.items,
+      selectedVideo: response.data.items[0]
+    });
     console.log(this.state.videos);
   };
 
@@ -25,6 +28,11 @@ class App extends Component {
   onVideoSelectHandler = video => {
     console.log({ 'Selected video': video });
     this.setState({ selectedVideo: video });
+  };
+
+  // show default
+  componentDidMount = () => {
+    this.searchResultsHandler('javascript');
   };
 
   render() {
